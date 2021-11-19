@@ -1,0 +1,62 @@
+Discussion on how we have populated this database and the size of the tables.
+
+The data/records in the database are generated using simulation features in ‘mockaroo.com’ and
+hence, are not real. The database is populated using insert statements in a linux environment.
+
+The size of the each tables and details of our database are:
+
+show table status WHERE name IN ('patient', 
+                                 'employee', 
+                                 'room',
+                                'assigned',
+                                'procedure_',
+                                'checks_in',
+                                'govern',
+                                'supervisor');
+
++------------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+-------------------+----------+----------------+---------+
+| Name       | Engine | Version | Row_format | Rows | Avg_row_length | Data_length | Max_data_length | Index_length | Data_free | Auto_increment | Create_time         | Update_time | Check_time | Collation         | Checksum | Create_options | Comment |
++------------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+-------------------+----------+----------------+---------+
+| assigned   | InnoDB |      10 | Compact    |  750 |            109 |       81920 |               0 |        16384 |         0 |           NULL | 2021-05-02 20:04:12 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |         |
+| checks_in  | InnoDB |      10 | Compact    | 1000 |             81 |       81920 |               0 |        49152 |         0 |           NULL | 2021-05-02 20:04:12 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |         |
+| employee   | InnoDB |      10 | Compact    |   90 |            182 |       16384 |               0 |            0 |         0 |           NULL | 2021-05-02 20:04:12 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |         |
+| govern     | InnoDB |      10 | Compact    |  650 |             75 |       49152 |               0 |        16384 |         0 |           NULL | 2021-05-02 20:04:12 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |         |
+| patient    | InnoDB |      10 | Compact    |  950 |            189 |      180224 |               0 |        49152 |         0 |           NULL | 2021-05-02 20:04:12 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |         |
+| procedure_ | InnoDB |      10 | Compact    |  900 |             91 |       81920 |               0 |        32768 |         0 |           NULL | 2021-05-02 20:04:12 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |         |
+| room       | InnoDB |      10 | Compact    |  100 |            163 |       16384 |               0 |            0 |         0 |           NULL | 2021-05-02 20:04:12 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |         |
+| supervisor | InnoDB |      10 | Compact    |   80 |            204 |       16384 |               0 |        16384 |         0 |           NULL | 2021-05-02 20:04:12 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |         |
++------------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+-------------------+----------+----------------+---------+
+8 rows in set (0.00 sec)
+								
+								
+								
+								
+SELECT 
+     table_name,
+     round(((data_length + index_length) / 1024 / 1024), 2) `Size in MB` 
+FROM information_schema.TABLES 
+WHERE table_schema = 'rajivkc'
+AND table_name IN ('patient', 
+                 'employee', 
+                 'room',
+                'assigned',
+                'procedure_',
+                'checks_in',
+                'govern',
+                'supervisor')
+ORDER BY (data_length + index_length) DESC;
+
++------------+------------+
+| table_name | Size in MB |
++------------+------------+
+| patient    |       0.22 |
+| checks_in  |       0.13 |
+| procedure_ |       0.11 |
+| assigned   |       0.09 |
+| govern     |       0.06 |
+| supervisor |       0.03 |
+| room       |       0.02 |
+| employee   |       0.02 |
++------------+------------+
+8 rows in set (0.00 sec)
+
